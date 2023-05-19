@@ -1,0 +1,54 @@
+<?php
+
+class ShoppingCart {
+    private $items = [];
+
+    public function addItem($item, $quantity = 1) {
+        if (isset($this->items[$item])) {
+            $this->items[$item] += $quantity;
+        } else {
+            $this->items[$item] = $quantity;
+        }
+    }
+
+    public function removeItem($item, $quantity = 1) {
+        if (isset($this->items[$item])) {
+            $this->items[$item] -= $quantity;
+            if ($this->items[$item] <= 0) {
+                unset($this->items[$item]);
+            }
+        }
+    }
+
+    public function getTotalItems() {
+        $total = 0;
+        foreach ($this->items as $quantity) {
+            $total += $quantity;
+        }
+        return $total;
+    }
+
+    public function getUniqueItems() {
+        return count($this->items);
+    }
+
+    public function getItems() {
+        return $this->items;
+    }
+}
+
+$cart = new ShoppingCart();
+$cart->addItem("Apple", 5);
+$cart->addItem("Banana", 3);
+$cart->addItem("Orange", 2);
+$cart->removeItem("Banana", 2);
+
+echo "Total Items: " . $cart->getTotalItems() . "\n";
+echo "Unique Items: " . $cart->getUniqueItems() . "\n";
+
+$items = $cart->getItems();
+foreach ($items as $item => $quantity) {
+    echo "$item: $quantity\n";
+}
+
+?>
